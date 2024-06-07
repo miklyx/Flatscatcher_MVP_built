@@ -23,10 +23,10 @@ export default function Map () {
         setIsLoading(false); 
       }
     }
-    fetchData()
 
-    const intervalId = setInterval(async () => {
+    const refreshData = async() => {
       console.log('Refreshing flats...');
+      setIsLoading(true)
       try {
         const refreshedFlats = await refreshFlats();
         if (refreshedFlats) {
@@ -35,7 +35,15 @@ export default function Map () {
         }
       } catch (error) {
         console.error("Error refreshing flats:", error);
+      } finally {
+        setIsLoading(false)
       }
+    }
+    refreshData()
+    //fetchData()
+
+    const intervalId = setInterval(async () => {
+      await refreshData()
     }, 5 * 60 * 1000); 
 
     return () => clearInterval(intervalId)
@@ -92,15 +100,10 @@ export default function Map () {
           ))}
       </MapView>
       
-      {visibleFlats < flats.length ? (
         <TouchableOpacity style={styles.buttonLoadMore} onPress={loadMore}>
           <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>Load more flats on map...</Text>
         </TouchableOpacity>
-        ):(
-        <TouchableOpacity style={styles.buttonLoadMore}>
-          <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>All flats loaded.</Text>
-        </TouchableOpacity>
-      )}
+      
 
       {selectedFlat && (
         <View style={styles.preferredFlat}>
