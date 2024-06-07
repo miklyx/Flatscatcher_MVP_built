@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flatscatcher_client",
-    "slug": "Flatscatcher_client",
+    "name": "Flatscatcher",
+    "slug": "flatscatcher",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,15 +22,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.miklyx.Flatscatcher_client"
+      "package": "com.miklyx.Flatscatcher_client",
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyC0eKFnpn3FWFCNzezPNawhoKJ76e1RvjM"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "c603e270-3968-40ed-9cc7-7f8a1e195097"
+        "projectId": "ae9b082c-77da-4684-848f-d2600c46c747"
       }
-    }
+    } 
   }
 }

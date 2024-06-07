@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { View,Text, StyleSheet, Linking, TouchableOpacity } from "react-native";
 import MapView from "react-native-maps";
+import { PROVIDER_GOOGLE } from "react-native-maps";
 import { getFlats, refreshFlats } from '../apiService';
 import { Marker } from "react-native-maps";
 
@@ -53,8 +54,8 @@ export default function Map () {
         .catch((error) => {
         console.error('Error opening the link:', error);
           alert('Applied, but there was an error opening the link.');
-    });
-    
+        });
+    flat.applied = true;
   };
 
   const filteredFlats = flats.filter(flat =>  flat.longitude && flat.latitude)
@@ -69,7 +70,8 @@ export default function Map () {
       </View>
       )}
       <MapView 
-        style={styles.map} 
+        style={styles.map}
+        provider={PROVIDER_GOOGLE} 
         initialRegion={{
           latitude: 52.498570832573186, 
           longitude: 13.406639494389717,
@@ -88,8 +90,8 @@ export default function Map () {
       </MapView>
       
       {visibleFlats < flats.length && (
-        <TouchableOpacity style={styles.loadMoreButton} onPress={loadMore}>
-          <Text style={styles.loadMoreText}>Load more flats ...</Text>
+        <TouchableOpacity style={styles.buttonLoadMore} onPress={loadMore}>
+          <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>Load more flats on map...</Text>
         </TouchableOpacity>
         )}
       
@@ -99,10 +101,10 @@ export default function Map () {
 
       {selectedFlat && (
         <View style={styles.preferredFlat}>
-          <Text style={{color:"#401F3E", fontStyle: 'italic', marginBottom:10}}>{selectedFlat.title}</Text>
-          <Text>{selectedFlat.price} €</Text>
-          <Text>{selectedFlat.size} m2</Text>
-          <Text>{selectedFlat.address}</Text>
+          <Text style={styles.flatText}>{selectedFlat.about}</Text>
+          <Text style={styles.flatText}>{selectedFlat.price}</Text>
+          <Text style={styles.flatText}>{selectedFlat.size}</Text>
+          <Text style={styles.flatText}>{selectedFlat.address}</Text>
       
           {!selectedFlat.applied ? (
             <TouchableOpacity style={styles.loadMoreButton} onPress={() => handleApply(selectedFlat)}>
@@ -123,7 +125,7 @@ export default function Map () {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#5C4B51',
-    flex: 1,
+    flex: 7,
     flexDirection: 'column',
     justifyContent: 'center',
     margin: 0,
@@ -139,14 +141,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   preferredFlat: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "flex-start",
     backgroundColor: '#d9e9e5', 
     color: '#401F3E',
+    flex: 5,
     borderWidth: 5, 
     borderColor: '#401F3E', 
     borderRadius: 5, 
-    padding: 10, 
-    marginVertical: 10,
+    padding: 5, 
+    marginVertical: 5,
     marginHorizontal: 15,
+  },
+  flatText: {
+    color: "#401F3E", 
+    fontStyle: 'italic',
+    lineHeight: 13, 
   },
   loadMore: {
     fontWeight: 'bold',
@@ -170,7 +181,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#d9e9e5',
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 10,
+  },
+  buttonLoadMore: {
+    backgroundColor: '#401F3E',
+    width: 300,
+    alignItems: 'center',
+    alignSelf: 'center',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 10,
   },
   button: {
     backgroundColor: '#401F3E',
@@ -179,7 +199,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 15,
     borderRadius: 8,
-    marginTop: 40,
+    marginTop: 5,
   },
   flatsLoading: {
     textAlign: 'center',
