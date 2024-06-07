@@ -24,25 +24,28 @@ export default function Map () {
       }
     }
     fetchData()
+
+    const intervalId = setInterval(async () => {
+      console.log('Refreshing flats...');
+      try {
+        const refreshedFlats = await refreshFlats();
+        if (refreshedFlats) {
+          const newData = await getFlats();
+          setFlats(newData);
+        }
+      } catch (error) {
+        console.error("Error refreshing flats:", error);
+      }
+    }, 5 * 60 * 1000); 
+
+    return () => clearInterval(intervalId)
+
   },[])
 
   const loadMore = () => {
     setVisibleFlats(prevVisibleFlats => prevVisibleFlats + 10);
   };
 
-  const handleRefreshFlats = async () => {
-    setIsLoading(true)
-    try {
-      res = await refreshFlats(); 
-      if (res) {
-        console.log('refreshed')
-        const fetchedFlats = await getFlats(); 
-        setFlats(fetchedFlats);
-        setIsLoading(false)}
-    } catch (error) {
-      console.error("Error refreshing flats:", error);
-    }
-  };
 
   const handleMarkerPress = (flat) => {
     if (!selectedFlat) setSelectedFlat(flat)
@@ -89,15 +92,15 @@ export default function Map () {
           ))}
       </MapView>
       
-      {visibleFlats < flats.length && (
+      {visibleFlats < flats.length ? (
         <TouchableOpacity style={styles.buttonLoadMore} onPress={loadMore}>
           <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>Load more flats on map...</Text>
         </TouchableOpacity>
-        )}
-      
-      <TouchableOpacity style={styles.button} onPress={handleRefreshFlats}>
-        <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>Refresh flats from sources</Text>
-      </TouchableOpacity>
+        ):(
+        <TouchableOpacity style={styles.buttonLoadMore}>
+          <Text style={{ color: '#fbf8ea', fontWeight: 'bold', fontSize: 16 }}>All flats loaded.</Text>
+        </TouchableOpacity>
+      )}
 
       {selectedFlat && (
         <View style={styles.preferredFlat}>
@@ -141,17 +144,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   preferredFlat: {
-    display: "flex",
-    flexDirection: "column",
-    alignContent: "flex-start",
     backgroundColor: '#d9e9e5', 
     color: '#401F3E',
-    flex: 5,
     borderWidth: 5, 
     borderColor: '#401F3E', 
     borderRadius: 5, 
     padding: 5, 
-    marginVertical: 5,
+    marginVertical: 10,
     marginHorizontal: 15,
   },
   flatText: {

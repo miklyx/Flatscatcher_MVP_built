@@ -1,3 +1,5 @@
+import apiKey from './settings.json'
+
 const URL = "https://flat-service-w52m.onrender.com"//process.env.BE_URL;
 
 export async function getFlats () {
