@@ -39,14 +39,14 @@ export default function Map () {
         setIsLoading(false)
       }
     }
-    refreshData()
-    //fetchData()
+    //refreshData()
+    fetchData()
 
-    const intervalId = setInterval(async () => {
-      await refreshData()
-    }, 5 * 60 * 1000); 
+    //const intervalId = setInterval(async () => {
+    //  await refreshData()
+    //}, 5 * 60 * 1000); 
 
-    return () => clearInterval(intervalId)
+    //return () => clearInterval(intervalId)
 
   },[])
 
