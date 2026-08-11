@@ -153,7 +153,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   loadMoreButton: {
-    fontWeight: "bold",
+    backgroundColor: "#401F3E",
+    width: 300,
+    alignItems: "center",
+    alignSelf: "center",
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 10,
   },
   loadMoreButtonText: {
     color: "#fbf8ea",

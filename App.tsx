@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -11,16 +11,18 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      {/* <Image
-        source={require('./assets/top_banner_light.png')}
-        style={styles.banner}
-      /> */}
-      <Stack.Navigator initialRouteName="Login" style={styles.container}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Map" component={Map} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <NavigationContainer>
+        {/* <Image
+          source={require('./assets/top_banner_light.png')}
+          style={styles.banner}
+        /> */}
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Map" component={Map} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 

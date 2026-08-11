@@ -1,11 +1,12 @@
 import React from "react";
-import { Image, Text, View, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/stack";
+import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import type { StackScreenProps } from "@react-navigation/stack";
 
 import Top from "../components/Top";
 import type { RootStackParamList } from "../types/navigation";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+type Props = StackScreenProps<RootStackParamList, "Login">;
 
 export default function Login({ navigation }: Props) {
   const handleLogin = () => {
@@ -14,7 +15,7 @@ export default function Login({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <ExpoStatusBar style="auto" />
       <Image
         source={require("../../assets/top_banner_light.png")}
         style={styles.banner}

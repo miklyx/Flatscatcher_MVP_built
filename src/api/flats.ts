@@ -1,7 +1,7 @@
-import type { Flat, FlatBase } from "../types";
-import type { FlatListApiResponse, GeoapifyCoordinatesResponse, RefreshFlatsResult } from "../types";
+import type { Flat, FlatBase, FlatListApiResponse, GeoapifyCoordinatesResponse, RefreshFlatsResult } from "../types";
 
 const URL = "https://flat-service-w52m.onrender.com"; // process.env.BE_URL;
+const GEOAPIFY_API_KEY = process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY;
 
 function hasCoordinates(
   response: GeoapifyCoordinatesResponse,
@@ -55,8 +55,11 @@ export async function getCoordinates(
   adr: string,
 ): Promise<[number, number] | undefined> {
   try {
+    if (!GEOAPIFY_API_KEY) {
+      throw new Error("Missing EXPO_PUBLIC_GEOAPIFY_API_KEY");
+    }
     const geoURL = "https://api.geoapify.com/v1/geocode/search?text=";
-    const apiAdr = "apiKey=eee1cb95010b46c495452f1642cc866d";
+    const apiAdr = `apiKey=${GEOAPIFY_API_KEY}`;
     const response = await fetch(`${geoURL}${adr}&${apiAdr}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
